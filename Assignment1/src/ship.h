@@ -21,6 +21,7 @@ public:
 		AVOIDING,
 	};
 	void SetMode(Modes mode);
+	void LookWhereYoureGoing(const glm::vec2 targetDirection);
 	void Seek();
 	void Flee();
 	void Arrive();

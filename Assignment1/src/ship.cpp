@@ -112,9 +112,28 @@ void Ship::Avoid()
 
 	if (CollisionManager::LineAABBCheck(this, thingToAvoid)) {
 		avoidance.x = ahead.x - thingToAvoid->GetTransform()->position.x;
+		avoidance.y = ahead.y - thingToAvoid->GetTransform()->position.y;
 	}
 	steering = steering + avoidance;
 	Move();
+}
+
+void Ship::LookWhereYoureGoing(const glm::vec2 targetDirection)
+{
+	const float rotation = Util::SignedAngle(GetCurrentDirection(), targetDirection);
+	const float sense = 25.0f;
+
+	if (CollisionManager::LineAABBCheck(this, thingToAvoid)) {
+		SetCurrentHeading(GetCurrentHeading() + m_turnRate);
+	}
+	else if (abs(rotation) > sense) {
+		if (rotation > 0.0f) {
+			SetCurrentHeading(GetCurrentHeading() + m_turnRate);
+		}
+		else if (rotation < 0.0f) {
+			SetCurrentHeading(GetCurrentHeading() - m_turnRate);
+		}
+	}
 }
 
 void Ship::SetObstacle(Obstacle* ob)
@@ -152,6 +171,7 @@ void Ship::MoveBack()
 
 void Ship::Move()
 {
+	LookWhereYoureGoing(steering);
 	GetTransform()->position += steering * m_maxSpeed;
 	GetRigidBody()->velocity *= 0.9f;
 }
