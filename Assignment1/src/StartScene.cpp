@@ -45,10 +45,10 @@ void StartScene::HandleEvents()
 
 void StartScene::Start()
 {
-	const SDL_Color blue = { 0, 0, 255, 255 };
-	m_pAssignmentLabel = new Label("Assignment 1", "Consolas", 80, blue, glm::vec2(400.0f, 40.0f));
-	m_pEthan = new Label("Ethan Minns: 10145424", "Consolas", 50, blue, glm::vec2(400.0f, 120.0f));
-	m_pKarl = new Label("karl Bogomlov: 00000000", "Consolas", 50, blue, glm::vec2(400.0f, 170.0f));
+	const SDL_Color red = { 255, 0, 0, 255 };
+	m_pAssignmentLabel = new Label("Assignment 1", "Consolas", 80, red, glm::vec2(400.0f, 40.0f));
+	m_pEthan = new Label("Ethan Minns: 101456424", "Consolas", 50, red, glm::vec2(400.0f, 120.0f));
+	m_pKarl = new Label("karl Bogomlov: 101454567", "Consolas", 50, red, glm::vec2(400.0f, 170.0f));
 	m_pAssignmentLabel->SetParent(this);
 	m_pEthan->SetParent(this);
 	m_pKarl->SetParent(this);
