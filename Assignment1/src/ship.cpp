@@ -3,7 +3,6 @@
 #include "PlayScene.h"
 #include "TextureManager.h"
 #include "Util.h"
-#include "Obstacle.h"
 #include "CollisionManager.h"
 
 Ship::Ship() : m_maxSpeed(5.0f)
@@ -105,10 +104,22 @@ void Ship::Arrive()
 
 void Ship::Avoid()
 {
-	Seek();
-	if (CollisionManager::LineAABBCheck(thingAvoiding, thingToAvoid)) {
+	glm::vec2 ahead = GetTransform()->position + Util::Normalize(m_desiredVelocity) * 200.0f;
 
+	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
+	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
+	steering = m_desiredVelocity - GetRigidBody()->velocity;
+
+	if (CollisionManager::LineAABBCheck(this, thingToAvoid)) {
+		avoidance.x = ahead.x - thingToAvoid->GetTransform()->position.x;
 	}
+	steering = steering + avoidance;
+	Move();
+}
+
+void Ship::SetObstacle(Obstacle* ob)
+{
+	thingToAvoid = ob;
 }
 
 void Ship::TurnRight()

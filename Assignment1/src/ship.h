@@ -6,6 +6,7 @@
 #include <glm/vec4.hpp>
 
 #include "Agent.h"
+#include "Obstacle.h"
 
 class Ship : public Agent
 {
@@ -24,6 +25,7 @@ public:
 	void Flee();
 	void Arrive();
 	void Avoid();
+	void SetObstacle(Obstacle* ob);
 
 	Ship();
 	~Ship() override;
@@ -53,13 +55,13 @@ private:
 	glm::vec2 m_desiredVelocity;
     float distance;
 	glm::vec2 steering;
+	glm::vec2 avoidance;
 	float m_maxSpeed;
 	float m_turnRate;
 
 	Modes m_currentMode;
 
 	GameObject* thingToAvoid;
-	Ship* thingAvoiding;
 };
 
 

@@ -90,6 +90,7 @@ void PlayScene::GetKeyboardInput()
 	}
 
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_4)) {
+		m_pShip->SetObstacle(m_pObstacle);
 		m_pShip->SetMode(Ship::AVOIDING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
 	
