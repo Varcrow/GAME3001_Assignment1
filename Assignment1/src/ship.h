@@ -23,7 +23,7 @@ public:
 	void Seek();
 	void Flee();
 	void Arrive();
-	void Avoid();
+	void Avoid(Ship* obj1, GameObject* obj2);
 
 	Ship();
 	~Ship() override;

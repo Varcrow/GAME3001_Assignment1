@@ -3,6 +3,8 @@
 #include "PlayScene.h"
 #include "TextureManager.h"
 #include "Util.h"
+#include "Obstacle.h"
+#include "CollisionManager.h"
 
 Ship::Ship() : m_maxSpeed(5.0f)
 {
@@ -24,7 +26,7 @@ Ship::Ship() : m_maxSpeed(5.0f)
 	SetCurrentDirection(glm::vec2(1.0f, 0.0f)); // facing right
 	m_turnRate = 5.0f; // 5 degrees per frame
 
-	SetLOSDistance(400.0f); // 5 ppf x 80 feet
+	SetLOSDistance(50.0f); // 5 ppf x 80 feet
 	SetLOSColour(glm::vec4(1, 0, 0, 1));
 }
 
@@ -86,10 +88,10 @@ void Ship::Flee()
 
 void Ship::Arrive() 
 {
-	int slowingDistance = 20;
+	int slowingDistance = 200;
 
 	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
-	distance = sqrt(m_desiredVelocity.x + m_desiredVelocity.y);
+	distance = Util::Distance(GetTransform()->position, GetTargetPosition());
 	if (distance < slowingDistance) {
 		m_desiredVelocity = Util::Normalize(m_desiredVelocity) * (distance / slowingDistance);
 	}
@@ -101,8 +103,12 @@ void Ship::Arrive()
 	Move();
 }
 
-void Ship::Avoid() 
+void Ship::Avoid(Ship* obj1, GameObject* obj2)
 {
+	Seek();
+	if (CollisionManager::LineAABBCheck(obj1, obj2)) {
+
+	}
 
 }
 
