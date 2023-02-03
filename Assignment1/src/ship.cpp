@@ -86,7 +86,19 @@ void Ship::Flee()
 
 void Ship::Arrive() 
 {
+	int slowingDistance = 20;
 
+	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
+	distance = sqrt(m_desiredVelocity.x + m_desiredVelocity.y);
+	if (distance < slowingDistance) {
+		m_desiredVelocity = Util::Normalize(m_desiredVelocity) * (distance / slowingDistance);
+	}
+	else {
+		m_desiredVelocity = Util::Normalize(m_desiredVelocity);
+	}
+	steering = m_desiredVelocity - GetRigidBody()->velocity;
+
+	Move();
 }
 
 void Ship::Avoid() 

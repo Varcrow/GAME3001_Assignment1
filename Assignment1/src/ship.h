@@ -51,6 +51,7 @@ private:
 	void Reset();
 
 	glm::vec2 m_desiredVelocity;
+    float distance;
 	glm::vec2 steering;
 	float m_maxSpeed;
 	float m_turnRate;
