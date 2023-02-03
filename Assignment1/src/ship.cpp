@@ -46,7 +46,6 @@ void Ship::Draw()
 	Util::DrawLine(GetTransform()->position, GetTransform()->position + GetCurrentDirection() * GetLOSDistance(), GetLOSColour());
 }
 
-
 void Ship::Update()
 {
 	if (m_currentMode == SEEKING) {
@@ -54,6 +53,12 @@ void Ship::Update()
 	}
 	if (m_currentMode == FLEEING) {
 		Flee();
+	}
+	if (m_currentMode == ARRIVING) {
+		Arrive();
+	}
+	if (m_currentMode == AVOIDING) {
+		Avoid();
 	}
 }
 
@@ -79,7 +84,12 @@ void Ship::Flee()
 	Move();
 }
 
-void Ship::Arrival() 
+void Ship::Arrive() 
+{
+
+}
+
+void Ship::Avoid() 
 {
 
 }

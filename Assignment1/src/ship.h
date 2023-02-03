@@ -7,9 +7,10 @@
 
 #include "Agent.h"
 
-class Ship final : public Agent
+class Ship : public Agent
 {
 public:
+	//movement behaviour
 	enum Modes 
 	{
 		STATIC,
@@ -19,6 +20,10 @@ public:
 		AVOIDING,
 	};
 	void SetMode(Modes mode);
+	void Seek();
+	void Flee();
+	void Arrive();
+	void Avoid();
 
 	Ship();
 	~Ship() override;
@@ -34,11 +39,6 @@ public:
 	void MoveBack();
 
 	void Move();
-
-	//movement behaviour
-	void Seek();
-	void Flee();
-	void Arrival();
 
 	// getters
 	[[nodiscard]] float GetMaxSpeed() const;
