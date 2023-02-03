@@ -17,6 +17,8 @@ Ship::Ship() : m_maxSpeed(5.0f)
 	GetRigidBody()->acceleration = glm::vec2(0.0f, 0.0f);
 	GetRigidBody()->isColliding = false;
 	SetType(GameObjectType::AGENT);
+	SetMode(STATIC);
+
 
 	SetCurrentHeading(0.0f);// current facing angle
 	SetCurrentDirection(glm::vec2(1.0f, 0.0f)); // facing right
@@ -30,6 +32,11 @@ Ship::Ship() : m_maxSpeed(5.0f)
 Ship::~Ship()
 = default;
 
+void Ship::SetMode(Modes mode) 
+{
+	m_currentMode = mode;
+}
+
 void Ship::Draw()
 {
 	// draw the ship
@@ -42,7 +49,12 @@ void Ship::Draw()
 
 void Ship::Update()
 {
-	Flee();
+	if (m_currentMode == SEEKING) {
+		Seek();
+	}
+	if (m_currentMode == FLEEING) {
+		Flee();
+	}
 }
 
 void Ship::Clean()
@@ -65,6 +77,11 @@ void Ship::Flee()
 	steering = m_desiredVelocity - GetRigidBody()->velocity;
 
 	Move();
+}
+
+void Ship::Arrival() 
+{
+
 }
 
 void Ship::TurnRight()

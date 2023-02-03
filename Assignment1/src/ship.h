@@ -10,6 +10,16 @@
 class Ship final : public Agent
 {
 public:
+	enum Modes 
+	{
+		STATIC,
+		SEEKING,
+		FLEEING,
+		ARRIVING,
+		AVOIDING,
+	};
+	void SetMode(Modes mode);
+
 	Ship();
 	~Ship() override;
 
@@ -28,6 +38,7 @@ public:
 	//movement behaviour
 	void Seek();
 	void Flee();
+	void Arrival();
 
 	// getters
 	[[nodiscard]] float GetMaxSpeed() const;
@@ -44,6 +55,7 @@ private:
 	float m_maxSpeed;
 	float m_turnRate;
 
+	Modes m_currentMode;
 };
 
 
