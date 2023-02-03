@@ -37,6 +37,7 @@ private:
 	Label* m_pInstructionsLabel{};
 
 	Label* m_pSeekLabel{};
+	Label* m_pArrivalLabel{};
 
 	// Input Control
 	int m_pCurrentInputType{};
