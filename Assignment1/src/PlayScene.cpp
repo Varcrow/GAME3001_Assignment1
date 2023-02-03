@@ -78,10 +78,14 @@ void PlayScene::Start()
 
 	AddChild(m_pSeekLabel);
 
-	m_pArrivalLabel = new Label("Press 1 to arrive", "Consolas");
+	m_pArrivalLabel = new Label("Press 2 to flee", "Consolas");
 	m_pArrivalLabel->GetTransform()->position = glm::vec2(120, 80);
 
 	AddChild(m_pArrivalLabel);
+
+	Label* three = new Label("Press 3 to arrive", "Consolas");
+	three->GetTransform()->position = glm::vec2(120, 120);
+	AddChild(three);
 
 	/* SOUNDS */
 	SoundManager::Instance().Load("../Assets/audio/Klingon.mp3", "music", SoundType::SOUND_MUSIC);
