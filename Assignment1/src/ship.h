@@ -27,6 +27,7 @@ public:
 
 	//movement behaviour
 	void Seek();
+	void Flee();
 
 	// getters
 	[[nodiscard]] float GetMaxSpeed() const;

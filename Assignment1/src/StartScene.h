@@ -6,7 +6,7 @@
 #include "Label.h"
 #include "Button.h"
 
-//testing
+//testing******************
 #include "Ship.h"
 #include "Target.h"
 
@@ -24,7 +24,7 @@ public:
 	virtual void Start() override;
 	
 private:
-	//testing
+	//testing*********************
 	Ship* ship;
 	Target* target;
 
