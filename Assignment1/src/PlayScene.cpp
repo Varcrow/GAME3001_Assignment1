@@ -38,147 +38,23 @@ void PlayScene::HandleEvents()
 {
 	EventManager::Instance().Update();
 
-	GetPlayerInput();
-
 	GetKeyboardInput();
-}
-
-void PlayScene::GetPlayerInput()
-{
-	switch (m_pCurrentInputType)
-	{
-	case static_cast<int>(InputType::GAME_CONTROLLER):
-	{
-		// handle player movement with GameController
-		if (SDL_NumJoysticks() > 0)
-		{
-			if (EventManager::Instance().GetGameController(0) != nullptr)
-			{
-				constexpr auto dead_zone = 10000;
-				if (EventManager::Instance().GetGameController(0)->STICK_LEFT_HORIZONTAL > dead_zone)
-				{
-					m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_RUN_RIGHT);
-					m_playerFacingRight = true;
-				}
-				else if (EventManager::Instance().GetGameController(0)->STICK_LEFT_HORIZONTAL < -dead_zone)
-				{
-					m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_RUN_LEFT);
-					m_playerFacingRight = false;
-				}
-				else
-				{
-					if (m_playerFacingRight)
-					{
-						m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_IDLE_RIGHT);
-					}
-					else
-					{
-						m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_IDLE_LEFT);
-					}
-				}
-			}
-		}
-	}
-	break;
-	case static_cast<int>(InputType::KEYBOARD_MOUSE):
-	{
-		// handle player movement with mouse and keyboard
-		if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_A))
-		{
-			m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_RUN_LEFT);
-			m_playerFacingRight = false;
-		}
-		else if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_D))
-		{
-			m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_RUN_RIGHT);
-			m_playerFacingRight = true;
-		}
-		else
-		{
-			if (m_playerFacingRight)
-			{
-				m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_IDLE_RIGHT);
-			}
-			else
-			{
-				m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_IDLE_LEFT);
-			}
-		}
-	}
-	break;
-	case static_cast<int>(InputType::ALL):
-	{
-		if (SDL_NumJoysticks() > 0)
-		{
-			if (EventManager::Instance().GetGameController(0) != nullptr)
-			{
-				constexpr auto dead_zone = 10000;
-				if (EventManager::Instance().GetGameController(0)->STICK_LEFT_HORIZONTAL > dead_zone
-					|| EventManager::Instance().IsKeyDown(SDL_SCANCODE_D))
-				{
-					m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_RUN_RIGHT);
-					m_playerFacingRight = true;
-				}
-				else if (EventManager::Instance().GetGameController(0)->STICK_LEFT_HORIZONTAL < -dead_zone
-					|| EventManager::Instance().IsKeyDown(SDL_SCANCODE_A))
-				{
-					m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_RUN_LEFT);
-					m_playerFacingRight = false;
-				}
-				else
-				{
-					if (m_playerFacingRight)
-					{
-						m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_IDLE_RIGHT);
-					}
-					else
-					{
-						m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_IDLE_LEFT);
-					}
-				}
-			}
-		}
-		else if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_A))
-		{
-			m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_RUN_LEFT);
-			m_playerFacingRight = false;
-		}
-		else if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_D))
-		{
-			m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_RUN_RIGHT);
-			m_playerFacingRight = true;
-		}
-		else
-		{
-			if (m_playerFacingRight)
-			{
-				m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_IDLE_RIGHT);
-			}
-			else
-			{
-				m_pPlayer->SetAnimationState(PlayerAnimationState::PLAYER_IDLE_LEFT);
-			}
-		}
-	}
-	break;
-	}
 }
 
 void PlayScene::GetKeyboardInput()
 {
-	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_ESCAPE))
+	/* 1/2 to do stuff */
+	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_1))
 	{
-		Game::Instance().Quit();
-	}
+		m_pTrgt->GetTransform()->position.x = rand() % 800;
+		m_pTrgt->GetTransform()->position.y = rand() % 600;
+		m_pTrgt->SetEnabled(true);
 
-	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_1))
-	{
-		Game::Instance().ChangeSceneState(SceneState::START);
 	}
 
 	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_2))
 	{
-		Game::Instance().ChangeSceneState(SceneState::END);
+
 	}
 }
 
@@ -189,62 +65,6 @@ void PlayScene::Start()
 
 	// Set Input Type
 	m_pCurrentInputType = static_cast<int>(InputType::KEYBOARD_MOUSE);
-	
-	// Plane Sprite
-	m_pPlaneSprite = new Plane();
-	AddChild(m_pPlaneSprite);
-
-	// Player Sprite
-	m_pPlayer = new Player();
-	AddChild(m_pPlayer);
-	m_playerFacingRight = true;
-
-	// Back Button
-	m_pBackButton = new Button("../Assets/textures/backButton.png", "backButton", GameObjectType::BACK_BUTTON);
-	m_pBackButton->GetTransform()->position = glm::vec2(300.0f, 400.0f);
-	m_pBackButton->AddEventListener(Event::CLICK, [&]()-> void
-	{
-		m_pBackButton->SetActive(false);
-		Game::Instance().ChangeSceneState(SceneState::START);
-	});
-
-	m_pBackButton->AddEventListener(Event::MOUSE_OVER, [&]()->void
-	{
-		m_pBackButton->SetAlpha(128);
-	});
-
-	m_pBackButton->AddEventListener(Event::MOUSE_OUT, [&]()->void
-	{
-		m_pBackButton->SetAlpha(255);
-	});
-	AddChild(m_pBackButton);
-
-	// Next Button
-	m_pNextButton = new Button("../Assets/textures/nextButton.png", "nextButton", GameObjectType::NEXT_BUTTON);
-	m_pNextButton->GetTransform()->position = glm::vec2(500.0f, 400.0f);
-	m_pNextButton->AddEventListener(Event::CLICK, [&]()-> void
-	{
-		m_pNextButton->SetActive(false);
-		Game::Instance().ChangeSceneState(SceneState::END);
-	});
-
-	m_pNextButton->AddEventListener(Event::MOUSE_OVER, [&]()->void
-	{
-		m_pNextButton->SetAlpha(128);
-	});
-
-	m_pNextButton->AddEventListener(Event::MOUSE_OUT, [&]()->void
-	{
-		m_pNextButton->SetAlpha(255);
-	});
-
-	AddChild(m_pNextButton);
-
-	/* Instructions Label */
-	m_pInstructionsLabel = new Label("Press the backtick (`) character to toggle Debug View", "Consolas");
-	m_pInstructionsLabel->GetTransform()->position = glm::vec2(Config::SCREEN_WIDTH * 0.5f, 500.0f);
-
-	AddChild(m_pInstructionsLabel);
 
 	/* MORE LABELS */
 	m_pSeekLabel = new Label("Press 1 to seek", "Consolas");
@@ -257,8 +77,20 @@ void PlayScene::Start()
 
 	AddChild(m_pArrivalLabel);
 
+	/* SOUNDS */
+	SoundManager::Instance().Load("../Assets/audio/Klingon.mp3", "music", SoundType::SOUND_MUSIC);
+	SoundManager::Instance().PlayMusic("music");
+
+	SoundManager::Instance().Load("../Assets/audio/yay.ogg", "sound", SoundType::SOUND_SFX);
+	SoundManager::Instance().PlaySound("sound");
+
 	/* DO NOT REMOVE */
 	ImGuiWindowFrame::Instance().SetGuiFunction([this] { GUI_Function(); });
+
+	/* TARGET STUFF*/
+	m_pTrgt = new Target();
+	m_pTrgt->SetEnabled(false);
+	AddChild(m_pTrgt);
 }
 
 void PlayScene::GUI_Function() 
