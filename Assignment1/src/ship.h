@@ -25,6 +25,9 @@ public:
 
 	void Move();
 
+	//movement behaviour
+	void Seek();
+
 	// getters
 	[[nodiscard]] float GetMaxSpeed() const;
 
@@ -35,6 +38,8 @@ private:
 	void CheckBounds();
 	void Reset();
 
+	glm::vec2 m_desiredVelocity;
+	glm::vec2 steering;
 	float m_maxSpeed;
 	float m_turnRate;
 

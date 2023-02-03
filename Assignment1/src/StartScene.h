@@ -6,6 +6,10 @@
 #include "Label.h"
 #include "Button.h"
 
+//testing
+#include "Ship.h"
+#include "Target.h"
+
 class StartScene final : public Scene
 {
 public:
@@ -20,6 +24,10 @@ public:
 	virtual void Start() override;
 	
 private:
+	//testing
+	Ship* ship;
+	Target* target;
+
 	Label* m_pAssignmentLabel{};
 	Label* m_pEthan{};
 	Label* m_pKarl{};

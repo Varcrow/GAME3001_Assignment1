@@ -4,7 +4,7 @@
 #include "TextureManager.h"
 #include "Util.h"
 
-Ship::Ship() : m_maxSpeed(10.0f)
+Ship::Ship() : m_maxSpeed(5.0f)
 {
 	TextureManager::Instance().Load("../Assets/textures/ship3.png", "ship");
 
@@ -42,12 +42,19 @@ void Ship::Draw()
 
 void Ship::Update()
 {
-	/*move();
-	m_checkBounds();*/
+	Seek();
 }
 
 void Ship::Clean()
 {
+}
+
+void Ship::Seek() {
+	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
+	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
+	steering = m_desiredVelocity - GetRigidBody()->velocity;
+
+	Move();
 }
 
 void Ship::TurnRight()
@@ -80,7 +87,7 @@ void Ship::MoveBack()
 
 void Ship::Move()
 {
-	GetTransform()->position += GetRigidBody()->velocity;
+	GetTransform()->position += steering * m_maxSpeed;
 	GetRigidBody()->velocity *= 0.9f;
 }
 
