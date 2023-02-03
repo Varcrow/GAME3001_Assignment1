@@ -20,10 +20,9 @@ Ship::Ship() : m_maxSpeed(5.0f)
 	SetType(GameObjectType::AGENT);
 	SetMode(STATIC);
 
-
 	SetCurrentHeading(0.0f);// current facing angle
 	SetCurrentDirection(glm::vec2(1.0f, 0.0f)); // facing right
-	m_turnRate = 5.0f; // 5 degrees per frame
+	m_turnRate = 10.0f; // 5 degrees per frame
 
 	SetLOSDistance(50.0f); // 5 ppf x 80 feet
 	SetLOSColour(glm::vec4(1, 0, 0, 1));
