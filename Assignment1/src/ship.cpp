@@ -103,13 +103,12 @@ void Ship::Arrive()
 	Move();
 }
 
-void Ship::Avoid(Ship* obj1, GameObject* obj2)
+void Ship::Avoid()
 {
 	Seek();
-	if (CollisionManager::LineAABBCheck(obj1, obj2)) {
+	if (CollisionManager::LineAABBCheck(thingAvoiding, thingToAvoid)) {
 
 	}
-
 }
 
 void Ship::TurnRight()

@@ -23,7 +23,7 @@ public:
 	void Seek();
 	void Flee();
 	void Arrive();
-	void Avoid(Ship* obj1, GameObject* obj2);
+	void Avoid();
 
 	Ship();
 	~Ship() override;
@@ -57,6 +57,9 @@ private:
 	float m_turnRate;
 
 	Modes m_currentMode;
+
+	GameObject* thingToAvoid;
+	Ship* thingAvoiding;
 };
 
 
