@@ -52,6 +52,16 @@ void randomizeTargetAndShip(Target* trgt, Ship* ship) {
 	ship->SetEnabled(true);
 }
 
+void tpToSide(Ship* ship) {
+	int randSide = (rand() % (1 - 0 + 1)) == 1;
+	if (randSide == 1) {
+		ship->GetTransform()->position.x = 0;
+	}
+	else {
+		ship->GetTransform()->position.x = 800;
+	}
+}
+
 void PlayScene::GetKeyboardInput()
 {
 	/* 1/2 to do stuff */
@@ -59,13 +69,7 @@ void PlayScene::GetKeyboardInput()
 	{
 		m_pShip->SetMode(Ship::SEEKING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
-		int randSide = (rand() % (1 - 0 + 1)) == 1;
-		if (randSide == 1) {
-			m_pShip->GetTransform()->position.x = 0;
-		}
-		else {
-			m_pShip->GetTransform()->position.x = 800;
-		}
+		tpToSide(m_pShip);
 	}
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_2))
 	{
@@ -76,6 +80,7 @@ void PlayScene::GetKeyboardInput()
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_3)) {
 		m_pShip->SetMode(Ship::ARRIVING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
+		tpToSide(m_pShip);
 	}
 
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_4)) {
