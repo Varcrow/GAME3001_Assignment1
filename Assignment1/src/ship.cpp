@@ -42,15 +42,25 @@ void Ship::Draw()
 
 void Ship::Update()
 {
-	Seek();
+	Flee();
 }
 
 void Ship::Clean()
 {
 }
 
-void Ship::Seek() {
+void Ship::Seek() 
+{
 	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
+	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
+	steering = m_desiredVelocity - GetRigidBody()->velocity;
+
+	Move();
+}
+
+void Ship::Flee() 
+{
+	m_desiredVelocity = GetTransform()->position - GetTargetPosition();
 	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
 	steering = m_desiredVelocity - GetRigidBody()->velocity;
 

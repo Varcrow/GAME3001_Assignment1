@@ -21,7 +21,7 @@ void StartScene::Update()
 {
 	UpdateDisplayList();
 
-	//testing
+	//testing****************************************
 	ship->SetTargetPosition(target->GetTransform()->position);
 }
 
@@ -59,10 +59,9 @@ void StartScene::Start()
 	AddChild(m_pEthan);
 	AddChild(m_pKarl);
 
-	//testing
+	//testing*********************************
 	ship = new Ship();
 	target = new Target();
-
 	AddChild(ship);
 	AddChild(target);
 
