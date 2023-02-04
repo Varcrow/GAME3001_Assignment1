@@ -54,12 +54,12 @@ void PlayScene::GetKeyboardInput()
 	/* 1/2 to do stuff */
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_1))
 	{
-
+		m_pShip->SetMode(Ship::SEEKING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
 	}
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_2))
 	{
-
+		m_pShip->SetMode(Ship::FLEEING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
 	}
 
