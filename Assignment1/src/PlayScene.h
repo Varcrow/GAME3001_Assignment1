@@ -8,6 +8,7 @@
 #include "Button.h"
 #include "Label.h"
 #include "Target.h"
+#include "ship.h"
 
 class PlayScene : public Scene
 {
