@@ -41,7 +41,7 @@ public:
 	void MoveForward();
 	void MoveBack();
 
-	void Move();
+	void Move(glm::vec2 dir);
 
 	// getters
 	[[nodiscard]] float GetMaxSpeed() const;

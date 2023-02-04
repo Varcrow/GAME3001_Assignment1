@@ -4,6 +4,7 @@
 #include "TextureManager.h"
 #include "Util.h"
 #include "CollisionManager.h"
+#include "Game.h"
 
 Ship::Ship() : m_maxSpeed(5.0f)
 {
@@ -24,7 +25,7 @@ Ship::Ship() : m_maxSpeed(5.0f)
 	SetCurrentDirection(glm::vec2(1.0f, 0.0f)); // facing right
 	m_turnRate = 10.0f; // 5 degrees per frame
 
-	SetLOSDistance(50.0f); // 5 ppf x 80 feet
+	SetLOSDistance(420.0f); // 5 ppf x 80 feet
 	SetLOSColour(glm::vec4(1, 0, 0, 1));
 }
 
@@ -66,70 +67,99 @@ void Ship::Clean()
 {
 }
 
+
+void Ship::Move(glm::vec2 dir) {
+	GetRigidBody()->acceleration = GetCurrentDirection() *= 5;
+
+	GetRigidBody()->velocity = GetCurrentDirection();
+
+	if (Util::Distance(GetTransform()->position, GetTargetPosition()) > 40) {
+		GetTransform()->position = (GetTransform()->position) + (GetRigidBody()->velocity * Game::Instance().GetDeltaTime()) + (GetRigidBody()->acceleration);
+	}
+
+	GetRigidBody()->velocity += GetRigidBody()->acceleration;
+
+	steering = -(m_desiredVelocity - GetRigidBody()->velocity);
+}
+
 void Ship::Seek() 
 {
-	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
-	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
-	steering = m_desiredVelocity - GetRigidBody()->velocity;
+//	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
+//	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
+//	steering = m_desiredVelocity - GetRigidBody()->velocity;
 
-	Move();
+//	Move();
+
+	glm::vec2 wishDir = GetTargetPosition() - GetTransform()->position;
+	wishDir = Util::Normalize(wishDir);
+
+	LookWhereYoureGoing(wishDir);
+	Move({});
+	
 }
 
 void Ship::Flee() 
 {
-	m_desiredVelocity = GetTransform()->position - GetTargetPosition();
-	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
-	steering = m_desiredVelocity - GetRigidBody()->velocity;
+	glm::vec2 wishDir = GetTargetPosition() - GetTransform()->position;
+	wishDir = Util::Normalize(wishDir);
+	wishDir = -wishDir;
 
-	Move();
+	LookWhereYoureGoing(wishDir);
+
+	Move({});
 }
 
 void Ship::Arrive() 
 {
-	int slowingDistance = 200;
+	glm::vec2 wishDir = GetTargetPosition() - GetTransform()->position;
+	wishDir = Util::Normalize(wishDir);
 
-	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
+	LookWhereYoureGoing(wishDir);
+
 	distance = Util::Distance(GetTransform()->position, GetTargetPosition());
-	if (distance < slowingDistance) {
-		m_desiredVelocity = Util::Normalize(m_desiredVelocity) * (distance / slowingDistance);
-	}
-	else {
-		m_desiredVelocity = Util::Normalize(m_desiredVelocity);
-	}
-	steering = m_desiredVelocity - GetRigidBody()->velocity;
+	GetRigidBody()->acceleration = GetCurrentDirection() *= 5;
+	if(distance < 200) 
+		GetRigidBody()->acceleration = GetCurrentDirection() *= distance / 25;
 
-	Move();
+	GetRigidBody()->velocity = GetCurrentDirection();
+
+	if (Util::Distance(GetTransform()->position, GetTargetPosition()) > 10) {
+		GetTransform()->position = (GetTransform()->position) + (GetRigidBody()->velocity * Game::Instance().GetDeltaTime()) + (GetRigidBody()->acceleration);
+	}
+
+	GetRigidBody()->velocity += GetRigidBody()->acceleration;
+
+	steering = -(m_desiredVelocity - GetRigidBody()->velocity);
 }
 
 void Ship::Avoid()
 {
-	glm::vec2 ahead = GetTransform()->position + Util::Normalize(m_desiredVelocity) * 200.0f;
-
-	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
-	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
-	steering = m_desiredVelocity - GetRigidBody()->velocity;
-
-	if (CollisionManager::LineAABBCheck(this, thingToAvoid)) {
-		avoidance.x = ahead.x - thingToAvoid->GetTransform()->position.x;
-		avoidance.y = ahead.y - thingToAvoid->GetTransform()->position.y;
-	}
-	steering = steering + avoidance;
-	Move();
+	Seek();
 }
 
 void Ship::LookWhereYoureGoing(const glm::vec2 targetDirection)
 {
-	const float rotation = Util::SignedAngle(GetCurrentDirection(), targetDirection);
-	const float sense = 25.0f;
 
-	if (CollisionManager::LineAABBCheck(this, thingToAvoid)) {
-		SetCurrentHeading(GetCurrentHeading() + m_turnRate);
+	const float targetRotation = Util::SignedAngle(GetCurrentDirection(), targetDirection);
+
+	bool hchange = false;
+
+	if (thingToAvoid != nullptr && thingToAvoid->IsEnabled())
+	{
+		if (CollisionManager::LineAABBCheck(this, thingToAvoid)) {
+			SetCurrentHeading(GetCurrentHeading() + m_turnRate);
+			hchange = true;
+		}
+		
 	}
-	else if (abs(rotation) > sense) {
-		if (rotation > 0.0f) {
+	if (abs(targetRotation) > m_turnRate && hchange == false)
+	{
+		if (targetRotation > 0.0f)
+		{
 			SetCurrentHeading(GetCurrentHeading() + m_turnRate);
 		}
-		else if (rotation < 0.0f) {
+		else if (targetRotation < 0.0f)
+		{
 			SetCurrentHeading(GetCurrentHeading() - m_turnRate);
 		}
 	}
@@ -166,13 +196,6 @@ void Ship::MoveForward()
 void Ship::MoveBack()
 {
 	GetRigidBody()->velocity = GetCurrentDirection() * -m_maxSpeed;
-}
-
-void Ship::Move()
-{
-	LookWhereYoureGoing(steering);
-	GetTransform()->position += steering * m_maxSpeed;
-	GetRigidBody()->velocity *= 0.9f;
 }
 
 float Ship::GetMaxSpeed() const
