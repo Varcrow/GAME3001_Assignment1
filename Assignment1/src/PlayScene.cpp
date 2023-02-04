@@ -47,6 +47,7 @@ void randomizeTargetAndShip(Target* trgt, Ship* ship) {
 	trgt->SetEnabled(true);
 
 	ship->SetTargetPosition(trgt->GetTransform()->position);
+	ship->SetEnabled(true);
 }
 
 void PlayScene::GetKeyboardInput()
@@ -117,6 +118,7 @@ void PlayScene::Start()
 	AddChild(m_pTrgt);
 
 	m_pShip = new Ship();
+	m_pShip->SetEnabled(false);
 	AddChild(m_pShip);
 }
 
