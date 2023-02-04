@@ -64,7 +64,12 @@ void PlayScene::GetKeyboardInput()
 	}
 
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_3)) {
-		
+		m_pShip->SetMode(Ship::ARRIVING);
+		randomizeTargetAndShip(m_pTrgt, m_pShip);
+	}
+
+	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_4)) {
+		m_pShip->SetMode(Ship::AVOIDING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
 	}
 }
