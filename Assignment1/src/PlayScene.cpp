@@ -248,9 +248,14 @@ void PlayScene::Start()
 
 	/* MORE LABELS */
 	m_pSeekLabel = new Label("Press 1 to seek", "Consolas");
-	m_pSeekLabel->GetTransform()->position = glm::vec2(0, 420);
+	m_pSeekLabel->GetTransform()->position = glm::vec2(120, 40);
 
 	AddChild(m_pSeekLabel);
+
+	m_pArrivalLabel = new Label("Press 1 to arrive", "Consolas");
+	m_pArrivalLabel->GetTransform()->position = glm::vec2(120, 80);
+
+	AddChild(m_pArrivalLabel);
 
 	/* DO NOT REMOVE */
 	ImGuiWindowFrame::Instance().SetGuiFunction([this] { GUI_Function(); });
