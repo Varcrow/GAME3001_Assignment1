@@ -257,6 +257,9 @@ void PlayScene::Start()
 
 	AddChild(m_pArrivalLabel);
 
+	SoundManager::Instance().Load("../Assets/audio/Klingon.mp3", "music", SoundType::SOUND_MUSIC);
+	SoundManager::Instance().PlayMusic("music");
+
 	/* DO NOT REMOVE */
 	ImGuiWindowFrame::Instance().SetGuiFunction([this] { GUI_Function(); });
 }
