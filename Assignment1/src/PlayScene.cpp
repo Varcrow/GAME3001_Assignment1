@@ -67,17 +67,23 @@ void PlayScene::GetKeyboardInput()
 	/* 1/2 to do stuff */
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_1))
 	{
+		m_pObstacle->SetEnabled(false);
+
 		m_pShip->SetMode(Ship::SEEKING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
 		tpToSide(m_pShip);
 	}
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_2))
 	{
+		m_pObstacle->SetEnabled(false);
+
 		m_pShip->SetMode(Ship::FLEEING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
 	}
 
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_3)) {
+		m_pObstacle->SetEnabled(false);
+
 		m_pShip->SetMode(Ship::ARRIVING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
 		tpToSide(m_pShip);
@@ -90,6 +96,9 @@ void PlayScene::GetKeyboardInput()
 		glm::vec2 midpoint;
 		midpoint.x = (m_pTrgt->GetTransform()->position.x + m_pShip->GetTransform()->position.x) / 2;
 		midpoint.y = (m_pTrgt->GetTransform()->position.y + m_pShip->GetTransform()->position.y) / 2;
+
+		m_pObstacle->GetTransform()->position = midpoint;
+		m_pObstacle->SetEnabled(true);
 	}
 }
 
