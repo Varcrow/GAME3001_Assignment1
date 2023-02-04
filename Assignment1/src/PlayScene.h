@@ -9,6 +9,7 @@
 #include "Label.h"
 #include "Target.h"
 #include "ship.h"
+#include "Obstacle.h"
 
 class PlayScene : public Scene
 {
@@ -35,6 +36,7 @@ private:
 
 	Target* m_pTrgt{};
 	Ship* m_pShip{};
+	Obstacle* m_pObstacle{};
 };
 
 #endif /* defined (__PLAY_SCENE__) */

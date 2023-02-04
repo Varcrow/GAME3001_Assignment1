@@ -138,6 +138,10 @@ void PlayScene::Start()
 	m_pShip = new Ship();
 	m_pShip->SetEnabled(false);
 	AddChild(m_pShip);
+
+	m_pObstacle = new Obstacle();
+	m_pObstacle->SetEnabled(false);
+	AddChild(m_pObstacle);
 }
 
 void PlayScene::GUI_Function() 
