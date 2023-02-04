@@ -59,6 +59,13 @@ void PlayScene::GetKeyboardInput()
 	{
 		m_pShip->SetMode(Ship::SEEKING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
+		int randSide = (rand() % (1 - 0 + 1)) == 1;
+		if (randSide == 1) {
+			m_pShip->GetTransform()->position.x = 0;
+		}
+		else {
+			m_pShip->GetTransform()->position.x = 800;
+		}
 	}
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_2))
 	{
