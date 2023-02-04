@@ -47,6 +47,8 @@ void randomizeTargetAndShip(Target* trgt, Ship* ship) {
 	trgt->SetEnabled(true);
 
 	ship->SetTargetPosition(trgt->GetTransform()->position);
+	ship->GetTransform()->position.x = rand() % 800;
+	ship->GetTransform()->position.y = rand() % 600;
 	ship->SetEnabled(true);
 }
 
