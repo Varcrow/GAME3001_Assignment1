@@ -246,6 +246,12 @@ void PlayScene::Start()
 
 	AddChild(m_pInstructionsLabel);
 
+	/* MORE LABELS */
+	m_pSeekLabel = new Label("Press 1 to seek", "Consolas");
+	m_pSeekLabel->GetTransform()->position = glm::vec2(0, 420);
+
+	AddChild(m_pSeekLabel);
+
 	/* DO NOT REMOVE */
 	ImGuiWindowFrame::Instance().SetGuiFunction([this] { GUI_Function(); });
 }

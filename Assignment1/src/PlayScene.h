@@ -36,6 +36,8 @@ private:
 	Button* m_pNextButton{};
 	Label* m_pInstructionsLabel{};
 
+	Label* m_pSeekLabel{};
+
 	// Input Control
 	int m_pCurrentInputType{};
 	void GetPlayerInput();
