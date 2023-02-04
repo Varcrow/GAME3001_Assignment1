@@ -41,11 +41,12 @@ void PlayScene::HandleEvents()
 	GetKeyboardInput();
 }
 
-void randomizeTargetPositionAndEnable(Target* trgt) {
+void randomizeTargetAndShip(Target* trgt, Ship* ship) {
 	trgt->GetTransform()->position.x = rand() % 800;
 	trgt->GetTransform()->position.y = rand() % 600;
 	trgt->SetEnabled(true);
 
+	ship->SetTargetPosition(trgt->GetTransform()->position);
 }
 
 void PlayScene::GetKeyboardInput()
@@ -53,14 +54,18 @@ void PlayScene::GetKeyboardInput()
 	/* 1/2 to do stuff */
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_1))
 	{
-		randomizeTargetPositionAndEnable(m_pTrgt);
-		m_pShip->SetTargetPosition(m_pTrgt->GetTransform()->position);
-	}
 
+		randomizeTargetAndShip(m_pTrgt, m_pShip);
+	}
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_2))
 	{
-		randomizeTargetPositionAndEnable(m_pTrgt);
-		m_pShip->SetTargetPosition(m_pTrgt->GetTransform()->position);
+
+		randomizeTargetAndShip(m_pTrgt, m_pShip);
+	}
+
+	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_3)) {
+		
+		randomizeTargetAndShip(m_pTrgt, m_pShip);
 	}
 }
 
@@ -73,19 +78,23 @@ void PlayScene::Start()
 	m_pCurrentInputType = static_cast<int>(InputType::KEYBOARD_MOUSE);
 
 	/* MORE LABELS */
-	m_pSeekLabel = new Label("Press 1 to seek", "Consolas");
-	m_pSeekLabel->GetTransform()->position = glm::vec2(120, 40);
+	Label *one = new Label("Press 1 to seek", "Consolas");
+	one->GetTransform()->position = glm::vec2(120, 40);
 
-	AddChild(m_pSeekLabel);
+	AddChild(one);
 
-	m_pArrivalLabel = new Label("Press 2 to flee", "Consolas");
-	m_pArrivalLabel->GetTransform()->position = glm::vec2(120, 80);
+	Label* two = new Label("Press 2 to flee", "Consolas");
+	two->GetTransform()->position = glm::vec2(120, 80);
 
-	AddChild(m_pArrivalLabel);
+	AddChild(two);
 
 	Label* three = new Label("Press 3 to arrive", "Consolas");
 	three->GetTransform()->position = glm::vec2(120, 120);
 	AddChild(three);
+
+	Label* four = new Label("Press 4 to avoid obstacle", "Consolas");
+	four->GetTransform()->position = glm::vec2(120, 160);
+	AddChild(four);
 
 	/* SOUNDS */
 	SoundManager::Instance().Load("../Assets/audio/Klingon.mp3", "music", SoundType::SOUND_MUSIC);

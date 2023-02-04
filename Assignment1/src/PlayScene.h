@@ -29,9 +29,6 @@ private:
 	
 	glm::vec2 m_mousePosition;
 
-	Label* m_pSeekLabel{};
-	Label* m_pArrivalLabel{};
-
 	// Input Control
 	int m_pCurrentInputType{};
 	void GetKeyboardInput();
