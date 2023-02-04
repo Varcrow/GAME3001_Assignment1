@@ -44,8 +44,11 @@ void PlayScene::HandleEvents()
 void PlayScene::GetKeyboardInput()
 {
 	/* 1/2 to do stuff */
-	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_1))
+	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_1))
 	{
+		m_pTrgt->GetTransform()->position.x = rand() % 800;
+		m_pTrgt->GetTransform()->position.y = rand() % 600;
+		m_pTrgt->SetEnabled(true);
 
 	}
 
@@ -83,6 +86,11 @@ void PlayScene::Start()
 
 	/* DO NOT REMOVE */
 	ImGuiWindowFrame::Instance().SetGuiFunction([this] { GUI_Function(); });
+
+	/* TARGET STUFF*/
+	m_pTrgt = new Target();
+	m_pTrgt->SetEnabled(false);
+	AddChild(m_pTrgt);
 }
 
 void PlayScene::GUI_Function() 

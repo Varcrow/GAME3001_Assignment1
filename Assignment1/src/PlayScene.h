@@ -7,6 +7,7 @@
 #include "Player.h"
 #include "Button.h"
 #include "Label.h"
+#include "Target.h"
 
 class PlayScene : public Scene
 {
@@ -42,6 +43,8 @@ private:
 	// Input Control
 	int m_pCurrentInputType{};
 	void GetKeyboardInput();
+
+	Target* m_pTrgt{};
 };
 
 #endif /* defined (__PLAY_SCENE__) */
