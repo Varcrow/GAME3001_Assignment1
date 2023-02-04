@@ -49,6 +49,8 @@ void PlayScene::GetKeyboardInput()
 		m_pTrgt->GetTransform()->position.x = rand() % 800;
 		m_pTrgt->GetTransform()->position.y = rand() % 600;
 		m_pTrgt->SetEnabled(true);
+
+		m_pShip->SetTargetPosition(m_pTrgt->GetTransform()->position);
 	}
 
 	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_2))
