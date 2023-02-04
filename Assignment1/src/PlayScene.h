@@ -45,6 +45,7 @@ private:
 	void GetKeyboardInput();
 
 	Target* m_pTrgt{};
+	Ship* m_pShip{};
 };
 
 #endif /* defined (__PLAY_SCENE__) */

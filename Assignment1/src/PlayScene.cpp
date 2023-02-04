@@ -49,7 +49,6 @@ void PlayScene::GetKeyboardInput()
 		m_pTrgt->GetTransform()->position.x = rand() % 800;
 		m_pTrgt->GetTransform()->position.y = rand() % 600;
 		m_pTrgt->SetEnabled(true);
-
 	}
 
 	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_2))
@@ -91,6 +90,9 @@ void PlayScene::Start()
 	m_pTrgt = new Target();
 	m_pTrgt->SetEnabled(false);
 	AddChild(m_pTrgt);
+
+	m_pShip = new Ship();
+	AddChild(m_pShip);
 }
 
 void PlayScene::GUI_Function() 
