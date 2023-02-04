@@ -86,6 +86,10 @@ void PlayScene::GetKeyboardInput()
 	if (EventManager::Instance().KeyPressed(SDL_SCANCODE_4)) {
 		m_pShip->SetMode(Ship::AVOIDING);
 		randomizeTargetAndShip(m_pTrgt, m_pShip);
+	
+		glm::vec2 midpoint;
+		midpoint.x = (m_pTrgt->GetTransform()->position.x + m_pShip->GetTransform()->position.x) / 2;
+		midpoint.y = (m_pTrgt->GetTransform()->position.y + m_pShip->GetTransform()->position.y) / 2;
 	}
 }
 
