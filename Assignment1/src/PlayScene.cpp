@@ -38,31 +38,20 @@ void PlayScene::HandleEvents()
 {
 	EventManager::Instance().Update();
 
-	GetPlayerInput();
-
 	GetKeyboardInput();
-}
-
-void PlayScene::GetPlayerInput()
-{
-
 }
 
 void PlayScene::GetKeyboardInput()
 {
-	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_ESCAPE))
-	{
-		Game::Instance().Quit();
-	}
-
+	/* 1/2 to do stuff */
 	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_1))
 	{
-		Game::Instance().ChangeSceneState(SceneState::START);
+
 	}
 
 	if (EventManager::Instance().IsKeyDown(SDL_SCANCODE_2))
 	{
-		Game::Instance().ChangeSceneState(SceneState::END);
+
 	}
 }
 

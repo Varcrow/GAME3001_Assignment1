@@ -41,7 +41,6 @@ private:
 
 	// Input Control
 	int m_pCurrentInputType{};
-	void GetPlayerInput();
 	void GetKeyboardInput();
 };
 
