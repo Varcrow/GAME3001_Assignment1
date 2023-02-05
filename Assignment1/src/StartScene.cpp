@@ -20,9 +20,6 @@ void StartScene::Draw()
 void StartScene::Update()
 {
 	UpdateDisplayList();
-
-	//testing****************************************
-	ship->SetTargetPosition(target->GetTransform()->position);
 }
 
 void StartScene::Clean()
@@ -58,12 +55,6 @@ void StartScene::Start()
 	AddChild(m_pAssignmentLabel);
 	AddChild(m_pEthan);
 	AddChild(m_pKarl);
-
-	//testing*********************************
-	ship = new Ship();
-	target = new Target();
-	AddChild(ship);
-	AddChild(target);
 
 	// Start Button
 	m_pStartButton = new Button();
