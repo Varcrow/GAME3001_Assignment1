@@ -84,18 +84,11 @@ void Ship::Move(glm::vec2 dir) {
 
 void Ship::Seek() 
 {
-//	m_desiredVelocity = GetTargetPosition() - GetTransform()->position;
-//	m_desiredVelocity = Util::Normalize(m_desiredVelocity);
-//	steering = m_desiredVelocity - GetRigidBody()->velocity;
-
-//	Move();
-
 	glm::vec2 wishDir = GetTargetPosition() - GetTransform()->position;
 	wishDir = Util::Normalize(wishDir);
 
 	LookWhereYoureGoing(wishDir);
 	Move({});
-	
 }
 
 void Ship::Flee() 
